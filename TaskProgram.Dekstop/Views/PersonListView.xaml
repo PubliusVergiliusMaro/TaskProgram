@@ -15,17 +15,19 @@
             Grid.Row="0"
             x:Name="bookDataGrid"
             AutoGenerateColumns="False"
-            ItemsSource="{Binding People}">
+            ItemsSource="{Binding People}" 
+            Width="700"
+            IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
-                <DataGridTextColumn Header="FirstName" Binding="{Binding FirstName}" />
-                <DataGridTextColumn Header="LastName" Binding="{Binding LastName}" />
+                <DataGridTextColumn Header="Id"  Binding="{Binding Id}" />
+                <DataGridTextColumn Header="FirstName" Width="100" Binding="{Binding FirstName}" />
+                <DataGridTextColumn Header="LastName" Width="100" Binding="{Binding LastName}" />
                 <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" />
                 <DataGridTextColumn Header="Age" Binding="{Binding Age}" />
                 <DataGridTextColumn Header="PhoneNumber" Binding="{Binding PhoneNumber}" />
-                <DataGridTextColumn Header="StreetAddress" Binding="{Binding StreetAddress}" />
-                <DataGridTextColumn Header="City" Binding="{Binding City}" />
-                <DataGridTextColumn Header="State" Binding="{Binding State}" />
+                <DataGridTextColumn Header="StreetAddress" Width="80" Binding="{Binding StreetAddress}" />
+                <DataGridTextColumn Header="City" Width="52"  Binding="{Binding City}" />
+                <DataGridTextColumn Header="State" Width="86" Binding="{Binding State}" />
                 <DataGridTextColumn Header="PostalCode" Binding="{Binding PostalCode}" />
             </DataGrid.Columns>
         </DataGrid>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
 using TaskProgram.Common;
 using TaskProgram.Database.Models;
 using TaskProgram.Database.Repository;
@@ -16,22 +18,22 @@ namespace TaskProgram.Services.PersonServices
 		}
 		public void Create(Person person)
 		{
+
+			if (CheckDatabaseExists(Constants.DATABASE_NAME))
+			{
 			try
 			{
 				using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
 				{
 					connection.Open();
-					using (var command = new SqlCommand($@"INSERT INTO Persons (FirstName, LastName, Gender, Age, PhoneNumber) 
+					using (var command = new SqlCommand($@"INSERT INTO People (FirstName, LastName, Gender, Age, PhoneNumber) 
                 VALUES ('{person.FirstName}', '{person.LastName}', '{person.Gender}', {person.Age}, '{person.PhoneNumber}')", connection))
 					{
 						var result = command.ExecuteNonQuery();
 						if (result > 0)
 						{
-							// Get the ID of the newly inserted person
 							command.CommandText = "SELECT SCOPE_IDENTITY()";
 							int newId = Convert.ToInt32(command.ExecuteScalar());
-
-							// Insert the address of the person
 							if (person.Address != null)
 							{
 								command.CommandText = $@"INSERT INTO Addresses (StreetAddress, City, State, PostalCode, Person_FK) 
@@ -46,24 +48,56 @@ namespace TaskProgram.Services.PersonServices
 			{
 				return;
 			}
+			}
+			else
+			{
+				try
+				{
+					List<Person> personList = Deserialize();
+					personList.Add(person);
+					Serialize(personList);
+				}
+				catch (Exception ex)
+				{
+					return;
+				}
+		}
+
 		}
 		public bool Delete(int id)
 		{
-			try
+			if (CheckDatabaseExists(Constants.DATABASE_NAME))
 			{
-				using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
+				try
 				{
-					connection.Open();
-					using (var command = new SqlCommand($@"DELETE FROM People WHERE id = {id}", connection))
+					using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
 					{
-						var res = command.ExecuteNonQuery();
-						return true;
+						connection.Open();
+						using (var command = new SqlCommand($@"DELETE FROM People WHERE id = {id}", connection))
+						{
+							var res = command.ExecuteNonQuery();
+							return true;
+						}
 					}
 				}
+				catch (Exception ex)
+				{
+					return false;
+				}
 			}
-			catch (Exception ex)
+			else
 			{
-				return false;
+				try
+				{
+					List<Person> personList = Deserialize();
+					personList.Remove(personList.Where(person => person.Id == id).FirstOrDefault());
+					Serialize(personList);
+					return true;
+				}
+				catch(Exception ex)
+				{
+					return false;
+				}
 			}
 		}
 		public List<Person> GetAllFromDb()
@@ -73,19 +107,20 @@ namespace TaskProgram.Services.PersonServices
 				using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
 				{
 					connection.Open();
-					using (var command = new SqlCommand("" +
-						 "SELECT Id," +
-				" FirstName," +
-				" LastName," +
-				" Gender," +
-				" Age," +
-				" PhoneNumber," +
-				" StreetAddress," +
-				" City," +
-				" State," +
-				" PostalCode" +
-				" FROM People " +
-				" INNER JOIN Addresses ON People.AddressId = Addresses.Id", connection))
+					using (var command = new SqlCommand(@"SELECT 
+People.Id,
+People.FirstName,
+People.LastName,
+People.Gender,
+People.Age,
+People.PhoneNumber,
+Addresses.Id,
+Addresses.StreetAddress,
+Addresses.City,
+Addresses.State,
+Addresses.PostalCode
+FROM People
+INNER JOIN Addresses ON People.Id = Addresses.Person_FK;", connection))
 					{
 						using (var reader = command.ExecuteReader())
 						{
@@ -99,7 +134,7 @@ namespace TaskProgram.Services.PersonServices
 										FirstName = reader.GetString(1),
 										LastName = reader.GetString(2),
 										Gender = reader.GetString(3),
-										Age = int.Parse(reader.GetString(4)),
+										Age = reader.GetInt32(4),
 										PhoneNumber = reader.GetString(5),
 										Address =
 										new Address()
@@ -148,29 +183,13 @@ namespace TaskProgram.Services.PersonServices
 		}
 		public List<Person> GetAll()
 		{
-			if (CheckDatabaseExists("EFCorePeopleDB"))
+			if (CheckDatabaseExists(Constants.DATABASE_NAME))
 			{
-				var books = _personRepository.Table.ToList();
-				if (books.Count == 0)
-				{
-					if (CheckIfJsonFileExistsAndNotEmpty(Constants.FILE_PATH))
-					{
-						var bookes = Deserialize();
-						if (bookes.Count != 0) return Deserialize();
-						else return null;
-					}
-					else return null;
-				}
-				else return GetAllFromDb();
+				return GetAllFromDb();
 			}
-			else if (CheckIfJsonFileExistsAndNotEmpty(Constants.FILE_PATH))
+			else if (CheckIfJsonFileExistsAndNotEmpty("People.json"))
 			{
-				var books = Deserialize();
-				if (books.Count != 0)
-				{
-					return Deserialize();
-				}
-				else return null;
+				return Deserialize();
 			}
 			else return null;
 		}
@@ -222,7 +241,10 @@ namespace TaskProgram.Services.PersonServices
 		}
 		public void Serialize(List<Person> people)
 		{
-			string json = JsonConvert.SerializeObject(people);
+			string json = JsonConvert.SerializeObject(people, Formatting.Indented, new JsonSerializerSettings
+			{
+				ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+			});
 			File.WriteAllText("People.json", json);
 		}
 	}

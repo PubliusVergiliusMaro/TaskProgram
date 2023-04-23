@@ -8,21 +8,24 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <Style x:Key="TextBoxStyle">
-            <Setter Property="Control.Height" Value="15"/>
+            <Setter Property="Control.Height" Value="20"/>
+        </Style>
+        <Style x:Key="LabelStyle">
+            <Setter Property="Control.Height" Value="26"/>
+            <Setter Property="Control.FontSize" Value="15"/>
+            <Setter Property="Control.FontFamily" Value="Arial"/>
         </Style>
     </UserControl.Resources>
     <Grid>
         <Grid x:Name="addBookGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="10*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
             <Grid>
-                <StackPanel Orientation="Vertical" Grid.Row="0" Margin="50 0 0 0 ">
+                <StackPanel Orientation="Vertical" Grid.Row="0" Margin="50 0 0 0 " HorizontalAlignment="Center">
                    <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                       Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">FirstName:</Label>
                     <TextBox 
                         Style="{StaticResource TextBoxStyle}"
@@ -31,9 +34,7 @@
                  Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                          Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">Last Name:</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
@@ -42,9 +43,7 @@
                  Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                         Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">Gender:</Label>
                     <TextBox 
                Style="{StaticResource TextBoxStyle}"
@@ -53,9 +52,8 @@
                  Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                          Style="{StaticResource LabelStyle}"
+                       
                 Margin="8,0,0,0">Age:</Label>
                     <TextBox 
                Style="{StaticResource TextBoxStyle}"
@@ -64,9 +62,7 @@
                  Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                        Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">Phone :</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
@@ -75,9 +71,7 @@
                  Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                         Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">Street Address :</Label>
                     <TextBox 
                Style="{StaticResource TextBoxStyle}"
@@ -86,9 +80,7 @@
                  Text="{Binding StreetAddress, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                         Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">City:</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
@@ -97,9 +89,7 @@
                  Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                         Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">State :</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
@@ -108,9 +98,7 @@
                  Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
-                       Height="30"
-                FontSize="23"
-                FontFamily="Arial"
+                          Style="{StaticResource LabelStyle}"
                 Margin="8,0,0,0">Postal Code :</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
@@ -120,8 +108,10 @@
                 Margin="0,0,0,0" />
                 </StackPanel>
             </Grid>
-            <Button x:Name="saveBtn" Content="Save" IsEnabled="True" Command="{Binding SaveCommand}" Height="30" Width="70" Grid.Row="1" />
-            <Button x:Name="cancelBtn" Content="Cancel" Command="{Binding  CancelCommand}" Height="30" Width="70" Margin="0,0,400,0"  Grid.Row="1"/>
+            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+                <Button x:Name="cancelBtn" Content="Cancel" Command="{Binding  CancelCommand}" Height="40" Width="100" Margin="0,0,100,0"  Grid.Row="1"/>
+                <Button x:Name="saveBtn" Content="Save" IsEnabled="True" Command="{Binding SaveCommand}" Height="40" Width="100" Grid.Row="1" />
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

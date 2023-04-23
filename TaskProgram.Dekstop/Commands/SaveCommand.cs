@@ -25,8 +25,15 @@ namespace TaskProgram.Dekstop.Commands
 		public override bool CanExecute(object parameter)
 		{
 			return !string.IsNullOrEmpty(_addPersonViewModel.FirstName)
+				&& !string.IsNullOrEmpty(_addPersonViewModel.LastName) 
+				&& !string.IsNullOrEmpty(_addPersonViewModel.Gender)
+				&& !string.IsNullOrEmpty(_addPersonViewModel.PhoneNumber)
+				&& !string.IsNullOrEmpty(_addPersonViewModel.StreetAddress)
+				&& !string.IsNullOrEmpty(_addPersonViewModel.City)
+				&& !string.IsNullOrEmpty(_addPersonViewModel.State)
+				&& !string.IsNullOrEmpty(_addPersonViewModel.PostalCode)
 				&& base.CanExecute(parameter);
-			// перевирки
+
 		}
 		public override void Execute(object? parameter)
 		{
@@ -35,7 +42,8 @@ namespace TaskProgram.Dekstop.Commands
 			try
 			{
 				_personService.Create(book);
-				MessageBox.Show("Successfully created book.", "Success",
+				
+				MessageBox.Show("Successfully create new Person.", "Success",
 				  MessageBoxButton.OK, MessageBoxImage.Information);
 
 				_peopleListMavigationService.Navigate();
@@ -49,7 +57,13 @@ namespace TaskProgram.Dekstop.Commands
 		private void OnViewModelPropertyChanged(object sender, PropertyChangedEventArgs e)
 		{
 			if (e.PropertyName == nameof(AddPersonViewModel.FirstName)
-				|| e.PropertyName == nameof(AddPersonViewModel.LastName))
+				|| e.PropertyName == nameof(AddPersonViewModel.LastName)
+				|| e.PropertyName == nameof(AddPersonViewModel.Gender)
+				|| e.PropertyName == nameof(AddPersonViewModel.PhoneNumber)
+				|| e.PropertyName == nameof(AddPersonViewModel.StreetAddress)
+				|| e.PropertyName == nameof(AddPersonViewModel.City)
+				|| e.PropertyName == nameof(AddPersonViewModel.State)
+				|| e.PropertyName == nameof(AddPersonViewModel.PostalCode))
 			{
 				OnCanExecutedChanged();
 			}

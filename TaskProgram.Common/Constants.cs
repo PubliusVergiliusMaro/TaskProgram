@@ -10,5 +10,6 @@ namespace TaskProgram.Common
 	{
 		public static string CONNECTION_STRING = @"Data Source=localhost;Database=EFCorePeopleDb;Trusted_Connection=True;TrustServerCertificate=True;";
 		public static string FILE_PATH = @"People.json";
+		public static string DATABASE_NAME = "EFCorePeopleDb";
 	}
 }

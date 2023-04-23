@@ -11,6 +11,7 @@ namespace TaskProgram.Database.Models
 		public Person() { }
 		public Person(string firstName, string lastName, string gender, int age, string phoneNumber, Address address)
 		{
+
 			FirstName = firstName;
 			LastName = lastName;
 			Gender = gender;

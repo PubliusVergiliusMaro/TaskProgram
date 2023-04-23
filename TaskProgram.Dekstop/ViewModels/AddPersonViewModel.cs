@@ -38,7 +38,7 @@ namespace TaskProgram.Dekstop.ViewModels
 		private string lastName;
 		public string LastName
 		{
-			get { return firstName; }
+			get { return lastName; }
 			set
 			{
 				lastName = value;

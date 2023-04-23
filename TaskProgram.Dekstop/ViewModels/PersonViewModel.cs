@@ -14,7 +14,7 @@ namespace TaskProgram.Dekstop.ViewModels
 		public string FirstName => _person.FirstName;
 		public string LastName => _person.LastName;
 		public string Gender => _person.Gender;
-		public int Age => _person.Age;
+		public string Age => _person.Age.ToString();
 		public string PhoneNumber => _person.PhoneNumber;
 		public string StreetAddress => _person.Address.StreetAddress;
 		public string City => _person.Address.City;

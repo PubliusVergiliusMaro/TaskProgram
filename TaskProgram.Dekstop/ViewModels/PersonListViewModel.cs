@@ -24,29 +24,14 @@ namespace TaskProgram.Dekstop.ViewModels
 			_personService = personService;
 			_people = new ObservableCollection<PersonViewModel>();
 			AddPersonCommand = new NavigateCommand(addBookNavigationService);
+			
+			//List<Person> people = _personService.GetAllGenericRepos();
+			//_personService.Serialize(people);
 
-			_personService.Serialize(_personService.GetAll());
-
-			foreach (Person person in _personService.Deserialize())
+			foreach (Person person in _personService.GetAll())
 			{
 				_people.Add(new PersonViewModel(person));
-
 			}
-			//_people.Add(new PersonViewModel(new Person()
-			//{
-			//	FirstName = "Oleg",
-			//	LastName = "Redko",
-			//	Age = 18,
-			//	Gender = "Male",
-			//	PhoneNumber = "34315",
-			//	Address = new Address()
-			//	{
-			//		City = "Rivne",
-			//		PostalCode = "32141",
-			//		State = "rv",
-			//		StreetAddress = "Mlunivska"
-			//	}
-			//}));
 		}
 	}
 }

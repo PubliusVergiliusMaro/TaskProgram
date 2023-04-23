@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaskProgram.Common\TaskProgram.Common.csproj" />
-    <ProjectReference Include="..\TaskProgram.Database\TaskProgram.Database.csproj" />
     <ProjectReference Include="..\TaskProgram.Services\TaskProgram.Services.csproj" />
   </ItemGroup>
 

@@ -14,7 +14,6 @@ namespace TaskProgram.Services.PersonServices
 		void Create(Person person);
 		bool Delete(int id);
 		List<Person> GetAllFromDb();
-
 		Person GetById(int id);
 		bool Update(Person person);
 		List<Person> GetAll();

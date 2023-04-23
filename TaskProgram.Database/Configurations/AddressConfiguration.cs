@@ -13,7 +13,7 @@ namespace TaskProgram.Database.Configurations
 	{
 		public void Configure(EntityTypeBuilder<Address> builder)
 		{
-				builder.ToTable("Adresses").HasKey(address => address.Id);
+				builder.ToTable("Addresses").HasKey(address => address.Id);
 
 			builder
 				.HasOne<Person>(address => address.Person)
