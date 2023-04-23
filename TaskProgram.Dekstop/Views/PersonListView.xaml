@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="TaskProgram.Dekstop.Views.PersonListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaskProgram.Dekstop.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DataGrid
+            Grid.Row="0"
+            x:Name="bookDataGrid"
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding People}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn Header="FirstName" Binding="{Binding FirstName}" />
+                <DataGridTextColumn Header="LastName" Binding="{Binding LastName}" />
+                <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" />
+                <DataGridTextColumn Header="Age" Binding="{Binding Age}" />
+                <DataGridTextColumn Header="PhoneNumber" Binding="{Binding PhoneNumber}" />
+                <DataGridTextColumn Header="StreetAddress" Binding="{Binding StreetAddress}" />
+                <DataGridTextColumn Header="City" Binding="{Binding City}" />
+                <DataGridTextColumn Header="State" Binding="{Binding State}" />
+                <DataGridTextColumn Header="PostalCode" Binding="{Binding PostalCode}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="1"
+                Content="Add new" 
+                x:Name="addBookBtn"
+                Width="80"
+                Height="30"
+                Command="{Binding AddPersonCommand}" 
+                Margin="0,0,0,2"></Button>
+    </Grid>
+</UserControl>

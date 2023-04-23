@@ -1,0 +1,127 @@
+﻿<UserControl x:Class="TaskProgram.Dekstop.Views.AddPersonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaskProgram.Dekstop.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="TextBoxStyle">
+            <Setter Property="Control.Height" Value="15"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid x:Name="addBookGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid>
+                <StackPanel Orientation="Vertical" Grid.Row="0" Margin="50 0 0 0 ">
+                   <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">FirstName:</Label>
+                    <TextBox 
+                        Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">Last Name:</Label>
+                    <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">Gender:</Label>
+                    <TextBox 
+               Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">Age:</Label>
+                    <TextBox 
+               Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">Phone :</Label>
+                    <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">Street Address :</Label>
+                    <TextBox 
+               Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding StreetAddress, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">City:</Label>
+                    <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">State :</Label>
+                    <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    <Label  
+                       Height="30"
+                FontSize="23"
+                FontFamily="Arial"
+                Margin="8,0,0,0">Postal Code :</Label>
+                    <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                </StackPanel>
+            </Grid>
+            <Button x:Name="saveBtn" Content="Save" IsEnabled="True" Command="{Binding SaveCommand}" Height="30" Width="70" Grid.Row="1" />
+            <Button x:Name="cancelBtn" Content="Cancel" Command="{Binding  CancelCommand}" Height="30" Width="70" Margin="0,0,400,0"  Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</UserControl>

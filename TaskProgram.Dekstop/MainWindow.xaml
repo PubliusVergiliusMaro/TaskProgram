@@ -1,0 +1,24 @@
+﻿<Window x:Class="TaskProgram.Dekstop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskProgram.Dekstop"
+        xmlns:vms ="clr-namespace:TaskProgram.Dekstop.ViewModels"
+       xmlns:views="clr-namespace:TaskProgram.Dekstop.Views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="800">
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type vms:PersonListViewModel}" >
+                <views:PersonListView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vms:AddPersonViewModel}" >
+                <views:AddPersonView />
+            </DataTemplate>
+        </Grid.Resources>
+
+        <ContentControl Content="{Binding CurrentViewModel}"/>
+
+    </Grid>
+</Window>
