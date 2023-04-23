@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
+using System.Runtime.ExceptionServices;
 using TaskProgram.Common;
 using TaskProgram.Database.Models;
 using TaskProgram.Database.Repository;
@@ -21,33 +22,33 @@ namespace TaskProgram.Services.PersonServices
 
 			if (CheckDatabaseExists(Constants.DATABASE_NAME))
 			{
-			try
-			{
-				using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
+				try
 				{
-					connection.Open();
-					using (var command = new SqlCommand($@"INSERT INTO People (FirstName, LastName, Gender, Age, PhoneNumber) 
-                VALUES ('{person.FirstName}', '{person.LastName}', '{person.Gender}', {person.Age}, '{person.PhoneNumber}')", connection))
+					using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
 					{
-						var result = command.ExecuteNonQuery();
-						if (result > 0)
+						connection.Open();
+						using (var command = new SqlCommand($@"INSERT INTO People (FirstName, LastName, Gender, Age, PhoneNumber) 
+                VALUES ('{person.FirstName}', '{person.LastName}', '{person.Gender}', {person.Age}, '{person.PhoneNumber}')", connection))
 						{
-							command.CommandText = "SELECT SCOPE_IDENTITY()";
-							int newId = Convert.ToInt32(command.ExecuteScalar());
-							if (person.Address != null)
+							var result = command.ExecuteNonQuery();
+							if (result > 0)
 							{
-								command.CommandText = $@"INSERT INTO Addresses (StreetAddress, City, State, PostalCode, Person_FK) 
+								command.CommandText = "SELECT SCOPE_IDENTITY()";
+								int newId = Convert.ToInt32(command.ExecuteScalar());
+								if (person.Address != null)
+								{
+									command.CommandText = $@"INSERT INTO Addresses (StreetAddress, City, State, PostalCode, Person_FK) 
                             VALUES ('{person.Address.StreetAddress}', '{person.Address.City}', '{person.Address.State}', '{person.Address.PostalCode}', {newId})";
-								command.ExecuteNonQuery();
+									command.ExecuteNonQuery();
+								}
 							}
 						}
 					}
 				}
-			}
-			catch (Exception ex)
-			{
-				return;
-			}
+				catch (Exception ex)
+				{
+					return;
+				}
 			}
 			else
 			{
@@ -56,13 +57,14 @@ namespace TaskProgram.Services.PersonServices
 					List<Person> personList = Deserialize();
 					personList.Add(person);
 					Serialize(personList);
+					
 				}
 				catch (Exception ex)
 				{
 					return;
 				}
-		}
-
+			}
+			
 		}
 		public bool Delete(int id)
 		{
@@ -232,6 +234,7 @@ INNER JOIN Addresses ON People.Id = Addresses.Person_FK;", connection))
 				return false;
 			}
 		}
+		
 		public List<Person> Deserialize()
 		{
 			List<Person> people = new List<Person>();
