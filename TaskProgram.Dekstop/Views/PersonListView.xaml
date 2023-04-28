@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskProgram.Dekstop.Views"
+             xmlns:vm="clr-namespace:TaskProgram.Dekstop.ViewModels"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
     <UserControl.Resources>
@@ -12,45 +13,126 @@
         </ContextMenu>
 
     </UserControl.Resources>
+    
     <Grid>
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>-->
+
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!--<StackPanel Orientation="Vertical" Grid.Row="0" Margin="0 0 0 0 " HorizontalAlignment="Center">
+            <Label  Margin="10,0,0,0">Saving Types</Label>
+           
+            <Label >FirstName:</Label>
+            <TextBox
+                             Width="100" 
+                             HorizontalAlignment="Left" 
+                             Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label  >Last Name:</Label>
+            <TextBox 
+               
+                Width="125" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+            <Label>Gender:</Label>
+            <TextBox 
+               
+                Width="125"  
+                HorizontalAlignment="Left" 
+                 Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+            <Label >Age:</Label>
+            <TextBox 
+               
+                Width="125"  
+                HorizontalAlignment="Left" 
+                 Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+            <Label  >Phone :</Label>
+            <TextBox 
+               
+                 Width="125" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+            <Label >Street Address :</Label>
+            <TextBox 
+               
+                 Width="125"  
+                HorizontalAlignment="Left" 
+                 Text="{Binding StreetAddress, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+            <Label  >City:</Label>
+            <TextBox 
+               
+               Width="125" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+            <Label  
+                         
+                >State :</Label>
+            <TextBox 
+                
+                 Width="125" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+            <Label >Postal Code :</Label>
+            <TextBox 
+                Width="125" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+        </StackPanel>-->
+
         <DataGrid
             Grid.Row="0"
             x:Name="bookDataGrid"
-            AutoGenerateColumns="False"
-            ItemsSource="{Binding People}" 
             Width="700"
-            MouseRightButtonDown="bookDataGrid_MouseRightButtonDown">
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Command="{Binding EditPersonCommand}" Header="Delete"/>
-                </ContextMenu>
-                </DataGrid.ContextMenu>
-                <DataGrid.Columns>
-                <DataGridTextColumn Header="Id"  Binding="{Binding Id}" />
-                <DataGridTextColumn Header="FirstName" Width="100" Binding="{Binding FirstName}" />
-                <DataGridTextColumn Header="LastName" Width="100" Binding="{Binding LastName}" />
-                <DataGridTextColumn Header="Gender" Binding="{Binding Gender}" />
-                <DataGridTextColumn Header="Age" Binding="{Binding Age}" />
-                <DataGridTextColumn Header="PhoneNumber" Binding="{Binding PhoneNumber}" />
-                <DataGridTextColumn Header="StreetAddress" Width="80" Binding="{Binding StreetAddress}" />
-                <DataGridTextColumn Header="City" Width="52"  Binding="{Binding City}" />
-                <DataGridTextColumn Header="State" Width="86" Binding="{Binding State}" />
-                <DataGridTextColumn Header="PostalCode" Binding="{Binding PostalCode}" />
-                <DataGridTextColumn></DataGridTextColumn> 
+            ItemsSource="{Binding People}" 
+            SelectedItem="{Binding SelectedPerson, Mode=TwoWay}"
+            AutoGenerateColumns="False"
+            CanUserAddRows="True"
+            CanUserDeleteRows="True"
+            Grid.Column="1" Margin="50,0,50,0"
+           >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id"  Binding="{Binding Path = Id}" />
+                <DataGridTextColumn Header="FirstName" Width="100" Binding="{Binding Path = FirstName}" />
+                <DataGridTextColumn Header="LastName" Width="100" Binding="{Binding Path = LastName}" />
+                <DataGridTextColumn Header="Gender" Binding="{Binding Path = Gender}" />
+                <DataGridTextColumn Header="Age" Binding="{Binding Path = Age}" />
+                <DataGridTextColumn Header="PhoneNumber" Binding="{Binding Path = PhoneNumber}" />
+                <DataGridTextColumn Header="StreetAddress" Width="80" Binding="{Binding Path = StreetAddress}" />
+                <DataGridTextColumn Header="City" Width="52"  Binding="{Binding Path = City}" />
+                <DataGridTextColumn Header="State" Width="86" Binding="{Binding Path = State}" />
+                <DataGridTextColumn Header="PostalCode" Binding="{Binding Path = PostalCode}" />
+                <DataGridTextColumn></DataGridTextColumn>
             </DataGrid.Columns>
+
         </DataGrid>
-        <Button Grid.Row="1"
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="1" Margin="0,0,0,0" Grid.Row="1">
+            <Button 
                 Content="Add new" 
                 x:Name="addBookBtn"
                 Width="80"
                 Height="30"
                 Command="{Binding AddPersonCommand}" 
-                Margin="0,0,0,2"></Button>
-        
+                Margin="0,0,50,2"></Button>
+            <Button 
+                Content="Delete Selected" 
+                x:Name="deleteBookBtn"
+                Width="80"
+                Height="30"
+                Command="{Binding DeletePersonCommand}" 
+                Margin="50,0,0,2"></Button>
+        </StackPanel>
     </Grid>
 </UserControl>

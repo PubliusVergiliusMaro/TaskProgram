@@ -17,6 +17,7 @@ namespace TaskProgram.Dekstop.ViewModels
 	{
 		private readonly INavigationService _personListMavigationService;
 		private readonly IPersonService _personService;
+
 		public AddPersonViewModel(IPersonService personService,
 			INavigationService personListMavigationService)
 		{
@@ -26,7 +27,7 @@ namespace TaskProgram.Dekstop.ViewModels
 			SaveCommand = new DelegateCommand(Save, CanSave);
 				
 			LoadFromFileCommand = new DelegateCommand(LoadFromFile);
-			//SaveToFileCommand = new DelegateCommand(SaveToFile,CanSave);
+
 		}
 		public ICommand SaveCommand { get; }
 		public ICommand CancelCommand { get; }
@@ -259,6 +260,5 @@ namespace TaskProgram.Dekstop.ViewModels
 				&& !string.IsNullOrEmpty(this.PostalCode)
 				&& (EfIsChecked || AdoIsChecked || FileIsChecked);
 		}
-		public Action CloseAction { get; set; }
 	}
 }

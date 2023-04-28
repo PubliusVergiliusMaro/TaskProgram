@@ -24,14 +24,5 @@ namespace TaskProgram.Dekstop.Views
 		{
 			InitializeComponent();
 		}
-
-		
-		private void bookDataGrid_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-		{
-            var contextMenu = bookDataGrid.ContextMenu;
-			contextMenu.DataContext = bookDataGrid.DataContext;
-			contextMenu.IsOpen = true;
-			e.Handled = true;
-		}
 	}
 }
