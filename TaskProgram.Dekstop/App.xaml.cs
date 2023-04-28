@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using TaskProgram.Database.Repository;
+﻿using System.Windows;
 using TaskProgram.Database;
-using TaskProgram.Dekstop.NavigationServices.Stores;
-using TaskProgram.Dekstop.ViewModels;
 using TaskProgram.Database.Models;
+using TaskProgram.Database.Repository;
+using TaskProgram.Dekstop.Services.NavigationServices;
+using TaskProgram.Dekstop.Services.NavigationServices.Stores;
+using TaskProgram.Dekstop.ViewModels;
 using TaskProgram.Services.PersonServices;
-using TaskProgram.Dekstop.NavigationServices;
 
 namespace TaskProgram.Dekstop
 {

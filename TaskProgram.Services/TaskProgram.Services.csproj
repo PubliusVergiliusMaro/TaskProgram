@@ -10,9 +10,4 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TaskProgram.Common\TaskProgram.Common.csproj" />
-    <ProjectReference Include="..\TaskProgram.Database\TaskProgram.Database.csproj" />
-  </ItemGroup>
-
 </Project>

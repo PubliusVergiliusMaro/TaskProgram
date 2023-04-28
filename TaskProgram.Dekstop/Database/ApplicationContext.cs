@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaskProgram.Common;
 using TaskProgram.Database.Configurations;
+using TaskProgram.Database.Models;
 
 namespace TaskProgram.Database
 {

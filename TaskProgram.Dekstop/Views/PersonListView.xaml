@@ -5,20 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TaskProgram.Dekstop.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="600" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ContextMenu x:Key="GridContextMenu">
+            <ComboBox ItemsSource="{Binding Path=MyItemsSource}" SelectedItem="{Binding Path=MySelectedItem}"/>
+        </ContextMenu>
+
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+
         <DataGrid
             Grid.Row="0"
             x:Name="bookDataGrid"
             AutoGenerateColumns="False"
             ItemsSource="{Binding People}" 
             Width="700"
-            IsReadOnly="True">
-            <DataGrid.Columns>
+            MouseRightButtonDown="bookDataGrid_MouseRightButtonDown">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{Binding EditPersonCommand}" Header="Delete"/>
+                </ContextMenu>
+                </DataGrid.ContextMenu>
+                <DataGrid.Columns>
                 <DataGridTextColumn Header="Id"  Binding="{Binding Id}" />
                 <DataGridTextColumn Header="FirstName" Width="100" Binding="{Binding FirstName}" />
                 <DataGridTextColumn Header="LastName" Width="100" Binding="{Binding LastName}" />
@@ -29,6 +41,7 @@
                 <DataGridTextColumn Header="City" Width="52"  Binding="{Binding City}" />
                 <DataGridTextColumn Header="State" Width="86" Binding="{Binding State}" />
                 <DataGridTextColumn Header="PostalCode" Binding="{Binding PostalCode}" />
+                <DataGridTextColumn></DataGridTextColumn> 
             </DataGrid.Columns>
         </DataGrid>
         <Button Grid.Row="1"
@@ -38,5 +51,6 @@
                 Height="30"
                 Command="{Binding AddPersonCommand}" 
                 Margin="0,0,0,2"></Button>
+        
     </Grid>
 </UserControl>

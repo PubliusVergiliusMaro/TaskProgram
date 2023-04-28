@@ -1,9 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
-using System.Runtime.ExceptionServices;
 using TaskProgram.Common;
+using TaskProgram.Database.Configurations;
 using TaskProgram.Database.Models;
 using TaskProgram.Database.Repository;
 
@@ -24,7 +22,7 @@ namespace TaskProgram.Services.PersonServices
 			{
 				try
 				{
-					using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
+					using (var connection = new SqlConnection(DbConfiguration.CONNECTION_STRING))
 					{
 						connection.Open();
 						using (var command = new SqlCommand($@"INSERT INTO People (FirstName, LastName, Gender, Age, PhoneNumber) 
@@ -57,14 +55,14 @@ namespace TaskProgram.Services.PersonServices
 					List<Person> personList = Deserialize();
 					personList.Add(person);
 					Serialize(personList);
-					
+
 				}
 				catch (Exception ex)
 				{
 					return;
 				}
 			}
-			
+
 		}
 		public bool Delete(int id)
 		{
@@ -72,7 +70,7 @@ namespace TaskProgram.Services.PersonServices
 			{
 				try
 				{
-					using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
+					using (var connection = new SqlConnection(DbConfiguration.CONNECTION_STRING))
 					{
 						connection.Open();
 						using (var command = new SqlCommand($@"DELETE FROM People WHERE id = {id}", connection))
@@ -96,7 +94,7 @@ namespace TaskProgram.Services.PersonServices
 					Serialize(personList);
 					return true;
 				}
-				catch(Exception ex)
+				catch (Exception ex)
 				{
 					return false;
 				}
@@ -106,7 +104,7 @@ namespace TaskProgram.Services.PersonServices
 		{
 			try
 			{
-				using (var connection = new SqlConnection(Constants.CONNECTION_STRING))
+				using (var connection = new SqlConnection(DbConfiguration.CONNECTION_STRING))
 				{
 					connection.Open();
 					using (var command = new SqlCommand(@"SELECT 
@@ -199,7 +197,7 @@ INNER JOIN Addresses ON People.Id = Addresses.Person_FK;", connection))
 		{
 			string cmdText = String.Format("SELECT * FROM sys.databases where Name='{0}'", dataBase);
 			bool isExist = false;
-			using (SqlConnection connection = new SqlConnection(Constants.CONNECTION_STRING))
+			using (SqlConnection connection = new SqlConnection(DbConfiguration.CONNECTION_STRING))
 			{
 				connection.Open();
 				using (SqlCommand cmd = new SqlCommand(cmdText, connection))
@@ -234,7 +232,7 @@ INNER JOIN Addresses ON People.Id = Addresses.Person_FK;", connection))
 				return false;
 			}
 		}
-		
+
 		public List<Person> Deserialize()
 		{
 			List<Person> people = new List<Person>();
