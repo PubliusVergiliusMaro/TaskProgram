@@ -18,13 +18,17 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <Grid x:Name="addBookGrid">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="10*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
+           
+        <TabControl>
+            <TabItem Header="Add Person">
+                <Grid x:Name="addBookGrid">
+         
             <Grid>
-                <StackPanel Orientation="Vertical" Grid.Row="0" Margin="50 0 0 0 " HorizontalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Vertical" Grid.Row="0" Margin="50 0 0 0 " HorizontalAlignment="Center">
                         <Label Style="{StaticResource LabelStyle}" Margin="10,0,0,0">Saving Types</Label>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <RadioButton Content="EF" 
@@ -41,48 +45,48 @@
                     <TextBox Style="{StaticResource TextBoxStyle}"
                              Width="200" 
                              HorizontalAlignment="Left" 
-                             Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{Binding NewFirstName, UpdateSourceTrigger=PropertyChanged}"/>
                     <Label  Style="{StaticResource LabelStyle}">Last Name:</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewLastName, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label Style="{StaticResource LabelStyle}">Gender:</Label>
                     <TextBox 
                Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewGender, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label Style="{StaticResource LabelStyle}">Age:</Label>
                     <TextBox 
                Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewAge, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  Style="{StaticResource LabelStyle}">Phone :</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewPhoneNumber, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label Style="{StaticResource LabelStyle}">Street Address :</Label>
                     <TextBox 
                Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding StreetAddress, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewStreetAddress, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  Style="{StaticResource LabelStyle}">City:</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewCity, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label  
                          Style="{StaticResource LabelStyle}"
@@ -91,18 +95,18 @@
                 Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewState, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                     <Label Style="{StaticResource LabelStyle}">Postal Code :</Label>
                     <TextBox 
                 Style="{StaticResource TextBoxStyle}"
                 Width="200" 
                 HorizontalAlignment="Left" 
-                 Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}"
+                 Text="{Binding NewPostalCode, UpdateSourceTrigger=PropertyChanged}"
                 Margin="0,0,0,0" />
                 </StackPanel>
-            </Grid>
-            <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+                
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 0 0 5" HorizontalAlignment="Center">
                 <Button x:Name="cancelBtn" Content="Cancel"
                         Command="{Binding  CancelCommand}" Height="40" Width="100" Margin="0,0,100,0"  Grid.Row="1"/>
                 <Button x:Name="saveBtn" Content="Save" IsEnabled="True" 
@@ -118,6 +122,91 @@
                             Width="100"
                         Margin="100 0 0 0">Save to File</Button>-->
             </StackPanel>
+            </Grid>
         </Grid>
+            </TabItem>
+            <TabItem Header="Edit People">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Vertical" Grid.Row="0" Margin="50 0 0 0 " HorizontalAlignment="Center">
+                        <Label Style="{StaticResource LabelStyle}">FirstName:</Label>
+                        <TextBox Style="{StaticResource TextBoxStyle}"
+                             Width="200" 
+                             HorizontalAlignment="Left" 
+                             Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Label  Style="{StaticResource LabelStyle}">Last Name:</Label>
+                        <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                        <Label Style="{StaticResource LabelStyle}">Gender:</Label>
+                        <TextBox 
+               Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding Gender, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                        <Label Style="{StaticResource LabelStyle}">Age:</Label>
+                        <TextBox 
+               Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                        <Label  Style="{StaticResource LabelStyle}">Phone :</Label>
+                        <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                        <Label Style="{StaticResource LabelStyle}">Street Address :</Label>
+                        <TextBox 
+               Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding StreetAddress, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                        <Label  Style="{StaticResource LabelStyle}">City:</Label>
+                        <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding City, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                        <Label  
+                         Style="{StaticResource LabelStyle}"
+                >State :</Label>
+                        <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding State, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                        <Label Style="{StaticResource LabelStyle}">Postal Code :</Label>
+                        <TextBox 
+                Style="{StaticResource TextBoxStyle}"
+                Width="200" 
+                HorizontalAlignment="Left" 
+                 Text="{Binding PostalCode, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0,0,0,0" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0 0 0 5" HorizontalAlignment="Center">
+                       <Button Content="Previous Person"
+                        Command="{Binding PreviousPersonCommand}" Height="40" Width="100" Margin="0,0,100,0"  Grid.Row="1"/>
+                       <Button  Content="Update" IsEnabled="True" 
+                        Command="{Binding UpdateCommand}" Height="40" Width="100" Grid.Row="1" />
+                        <Button  Content="Next Person" IsEnabled="True" 
+                        Command="{Binding NextPersonCommand}" Height="40" Width="100" Grid.Row="1" Margin="100 0 0 0" />
+                    </StackPanel>
+                    <Label Content="{Binding PersonNumberInfo}" Grid.Row="1" Margin="0,0,25,0" HorizontalAlignment="Right" FontSize="25"></Label>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </UserControl>

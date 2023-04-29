@@ -22,10 +22,11 @@ namespace TaskProgram.Dekstop.ViewModels
 		private static IPersonService _personService;
 		private static INavigationService _addBookNavigationService;
 		public static IEnumerable<PersonViewModel> People => _people;
-		public ICommand AddPersonCommand { get; }
+		public ICommand EditPersonCommand { get; }
 		public ICommand DeletePersonCommand { get; }
+		public ICommand UpdateTableCommand { get; }
 
-		
+
 		private PersonViewModel selectedPerson;
 		public PersonViewModel SelectedPerson
 		{
@@ -42,10 +43,17 @@ namespace TaskProgram.Dekstop.ViewModels
 			_addBookNavigationService = addBookNavigationService;
 			_personService = personService;
 			_people = new ObservableCollection<PersonViewModel>();
-			AddPersonCommand = new DelegateCommand(GoToAddPersonPage);
+			EditPersonCommand = new DelegateCommand(GoToAddPersonPage);
 			DeletePersonCommand = new DelegateCommand(DeletePerson, CanBeDeleted);
+			UpdateTableCommand = new DelegateCommand(UpdateTable);
+			UpdateTable();
+
+		}
+		private void UpdateTable()
+		{
+			_people.Clear();
 			List<Person> people = _personService.GetAllEF();
-			if (people != null && people.Count !=0)
+			if (people != null && people.Count != 0)
 			{
 				foreach (Person person in _personService.GetAllEF())
 				{
@@ -53,17 +61,6 @@ namespace TaskProgram.Dekstop.ViewModels
 					_people.Add(personViewModel);
 				}
 			}
-
-		}
-		private void UpdatePerson()
-		{
-			//var person = new Person(FirstName, LastName, Gender, Age, PhoneNumber,
-			//	new Address(StreetAddress, City, State, PostalCode));
-			//var person = new Person(SelectedPerson.FirstName, SelectedPerson.LastName, SelectedPerson.Gender, int.Parse(SelectedPerson.Age), SelectedPerson.PhoneNumber,
-			//	new Address(SelectedPerson.StreetAddress, SelectedPerson.City, SelectedPerson.State, SelectedPerson.PostalCode));
-			
-			//_personService.UpdateEF(person);
-
 		}
 		private bool CanBeDeleted()
 		{

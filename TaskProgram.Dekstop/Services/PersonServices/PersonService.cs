@@ -216,26 +216,31 @@ Where People.Id = {id};", connection))
 			}
 			return dbRecord;
 		}
-		public bool UddateADO(Person newPerson)
+		public bool UpdateADO(Person newPerson)
 		{
 			try
 			{
 				using (var connection = new SqlConnection(DbConfiguration.CONNECTION_STRING))
 				{
 					connection.Open();
-					var command = new SqlCommand($@"UPDATE People
-SET People.FirstName = @firstName,
-People.LastName = @lastName,
-People.Gender = @gender,
-People.Age = @age,
-People.PhoneNumber = @phoneNumber,
-Address.StreetAddress = @streetAddress,
-Address.City = @city,
-Address.State = @state,
-Address.PostalCode = @postalcode
-WHERE People.Id = @id
-;", connection);
-					
+					using (var command = new SqlCommand($@"
+                UPDATE People
+                SET
+                    FirstName = @firstName,
+                    LastName = @lastName,
+                    Gender = @gender,
+                    Age = @age,
+                    PhoneNumber = @phoneNumber
+                WHERE Id = @id;
+                UPDATE Address
+                SET
+                    StreetAddress = @streetAddress,
+                    City = @city,
+                    State = @state,
+                    PostalCode = @postalCode
+                WHERE Person_FK = @id;
+            ", connection))
+					{
 						command.Parameters.AddWithValue("@id", newPerson.Id);
 						command.Parameters.AddWithValue("@firstName", newPerson.FirstName);
 						command.Parameters.AddWithValue("@lastName", newPerson.LastName);
@@ -245,10 +250,10 @@ WHERE People.Id = @id
 						command.Parameters.AddWithValue("@streetAddress", newPerson.Address.StreetAddress);
 						command.Parameters.AddWithValue("@city", newPerson.Address.City);
 						command.Parameters.AddWithValue("@state", newPerson.Address.State);
-						command.Parameters.AddWithValue("@postalcode", newPerson.Address.PostalCode);
-					var res = command.ExecuteNonQuery();
-					return true;
-
+						command.Parameters.AddWithValue("@postalCode", newPerson.Address.PostalCode);
+						var res = command.ExecuteNonQuery();
+						return true;
+					}
 				}
 			}
 			catch (Exception ex)
@@ -269,35 +274,6 @@ WHERE People.Id = @id
 				return false;
 			}
 		}
-		//public List<Person> GetAll()
-		//{
-		//	if (CheckDatabaseExists(Constants.DATABASE_NAME))
-		//	{
-		//		if(GetAllADO() != null)
-		//		{
-		//			return GetAllADO();
-		//		}
-		//		else
-		//		{
-		//			if (CheckIfJsonFileExistsAndNotEmpty("People.json"))
-		//			{
-		//				List<Person> listFromFile = Deserialize("People.json");
-
-		//				foreach (Person person in listFromFile)
-		//				{
-		//					CreateADO(person);
-		//				}
-		//				return Deserialize("People.json");
-		//			}
-		//			return null;
-		//		}
-		//	}
-		//	else if (CheckIfJsonFileExistsAndNotEmpty("People.json"))
-		//	{
-		//		return Deserialize("People.json");
-		//	}
-		//	else return null;
-		//}
 		private bool CheckDatabaseExists(string dataBase)
 		{
 			string cmdText = String.Format("SELECT * FROM sys.databases where Name='{0}'", dataBase);
