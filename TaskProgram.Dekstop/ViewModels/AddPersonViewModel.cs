@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using TaskProgram.Common;
 using TaskProgram.Database.Models;
 using TaskProgram.Dekstop.Commands;
@@ -29,7 +27,6 @@ namespace TaskProgram.Dekstop.ViewModels
 			_personService = personService;
 			_people = new ObservableCollection<PersonViewModel>();
 			CurrentPerson = 0;
-
 			List<Person> people = _personService.GetAllEF();
 			if (people != null && people.Count != 0)
 			{
@@ -44,9 +41,9 @@ namespace TaskProgram.Dekstop.ViewModels
 			CancelCommand = new DelegateCommand(this.Cancel);
 			SaveCommand = new DelegateCommand(Save, CanSave);
 			LoadFromFileCommand = new DelegateCommand(LoadFromFile);
-			NextPersonCommand = new DelegateCommand(NextCurrentPerson,CanGoNext);
-			PreviousPersonCommand = new DelegateCommand(PreviousCurrentPerson,CanGoPrevious);
-			UpdateCommand = new DelegateCommand(Update,CanUpdate);
+			NextPersonCommand = new DelegateCommand(NextCurrentPerson, CanGoNext);
+			PreviousPersonCommand = new DelegateCommand(PreviousCurrentPerson, CanGoPrevious);
+			UpdateCommand = new DelegateCommand(Update, CanUpdate);
 			LoadCurrentPerson();
 		}
 
@@ -58,7 +55,7 @@ namespace TaskProgram.Dekstop.ViewModels
 		public ICommand UpdateCommand { get; }
 
 
-		public string personNumberInfo;
+		private string personNumberInfo;
 		public string PersonNumberInfo
 		{
 			get => personNumberInfo;
@@ -66,6 +63,16 @@ namespace TaskProgram.Dekstop.ViewModels
 			{
 				personNumberInfo = value;
 				OnPropertyChanged(nameof(PersonNumberInfo));
+			}
+		}
+		private string globalError;
+		public string GlobalError
+		{
+			get => globalError;
+			set
+			{
+				globalError = value;
+				OnPropertyChanged(nameof(GlobalError));
 			}
 		}
 		/// Properties for Displaying and updating exists People
@@ -164,7 +171,7 @@ namespace TaskProgram.Dekstop.ViewModels
 		{
 			get => efIsChekced;
 			set
-			{ 
+			{
 				efIsChekced = value;
 				OnPropertyChanged(nameof(EfIsChecked));
 			}
@@ -174,7 +181,7 @@ namespace TaskProgram.Dekstop.ViewModels
 		{
 			get => adoIsChekced;
 			set
-			{ 
+			{
 				adoIsChekced = value;
 				OnPropertyChanged(nameof(AdoIsChecked));
 			}
@@ -293,25 +300,25 @@ namespace TaskProgram.Dekstop.ViewModels
 				if (FileIsChecked)
 				{
 					List<Person> people = _personService.Deserialize(Constants.FILE_PATH);
-					if(people != null)
+					if (people != null)
 					{
 						people.Add(person);
-						_personService.Serialize(people,Constants.FILE_PATH);
+						_personService.Serialize(people, Constants.FILE_PATH);
 					}
 					else
 					{
-                      _personService.Serialize(new List<Person>() { person},Constants.FILE_PATH);
+						_personService.Serialize(new List<Person>() { person }, Constants.FILE_PATH);
 					}
 				}
-				else if(AdoIsChecked) 
-				{ 
+				else if (AdoIsChecked)
+				{
 					_personService.CreateADO(person);
 				}
-				else if(EfIsChecked)
+				else if (EfIsChecked)
 				{
 					_personService.CreateEF(person);
 				}
-			
+
 				MessageBox.Show("Successfully create new Person.", "Success",
 				  MessageBoxButton.OK, MessageBoxImage.Information);
 				Cancel();
@@ -326,7 +333,10 @@ namespace TaskProgram.Dekstop.ViewModels
 			try
 			{
 				var person = new Person(FirstName, LastName, Gender, Age, PhoneNumber,
-					new Address(StreetAddress, City, State, PostalCode));
+					new Address(StreetAddress, City, State, PostalCode))
+				{
+					Id = _people[CurrentPerson].Id
+				};
 				if (_personService.UpdateEF(person))
 				{
 					MessageBox.Show("Successfully updated Person.", "Success",
@@ -342,21 +352,36 @@ namespace TaskProgram.Dekstop.ViewModels
 			{
 				MessageBox.Show(ex.Message);
 			}
-
 		}
 		private void LoadCurrentPerson()
 		{
-			FirstName = _people[CurrentPerson].FirstName;
-			LastName = _people[CurrentPerson].LastName;
-			Gender = _people[CurrentPerson].Gender;
-			Age = int.Parse(_people[CurrentPerson].Age);
-			PhoneNumber = _people[CurrentPerson].PhoneNumber;
-			StreetAddress = _people[CurrentPerson].StreetAddress;
-			City = _people[CurrentPerson].City;
-			State = _people[CurrentPerson].State;
-			PostalCode = _people[CurrentPerson].PostalCode;
+			if (_people.Count != 0)
+			{
+				FirstName = _people[CurrentPerson].FirstName;
+				LastName = _people[CurrentPerson].LastName;
+				Gender = _people[CurrentPerson].Gender;
+				Age = int.Parse(_people[CurrentPerson].Age);
+				PhoneNumber = _people[CurrentPerson].PhoneNumber;
+				StreetAddress = _people[CurrentPerson].StreetAddress;
+				City = _people[CurrentPerson].City;
+				State = _people[CurrentPerson].State;
+				PostalCode = _people[CurrentPerson].PostalCode;
 
-			PersonNumberInfo = $"{CurrentPerson+1}/{_people.Count}";
+				PersonNumberInfo = $"{CurrentPerson + 1}/{_people.Count}";
+			}
+			else
+			{
+				GlobalError = "Database is empty";
+				FirstName = "Empty";
+				LastName = "Empty";
+				Gender = "Empty";
+				Age = 0;
+				PhoneNumber = "Empty";
+				StreetAddress = "Empty";
+				City = "Empty";
+				State = "Empty";
+				PostalCode = "Empty";
+			}
 		}
 		private void LoadFromFile()
 		{
@@ -370,8 +395,8 @@ namespace TaskProgram.Dekstop.ViewModels
 			}
 			try
 			{
-		        List<Person> people = _personService.Deserialize(fileDialog.FileName);
-				foreach(Person personItem in people)
+				List<Person> people = _personService.Deserialize(fileDialog.FileName);
+				foreach (Person personItem in people)
 				{
 					_personService.CreateADO(personItem);
 				}
@@ -383,7 +408,6 @@ namespace TaskProgram.Dekstop.ViewModels
 			{
 				MessageBox.Show(ex.Message);
 			}
-
 		}
 		private void PreviousCurrentPerson()
 		{
@@ -398,12 +422,14 @@ namespace TaskProgram.Dekstop.ViewModels
 		}
 		private bool CanGoPrevious()
 		{
-			return CurrentPerson != 0;
+			return CurrentPerson != 0
+				&& _people.Count != 0;
 		}
 
 		private bool CanGoNext()
 		{
-			return CurrentPerson != _people.Count - 1;
+			return _people.Count != 0
+			&& CurrentPerson != _people.Count - 1;
 		}
 		private bool CanSave()
 		{
@@ -426,7 +452,8 @@ namespace TaskProgram.Dekstop.ViewModels
 				&& !string.IsNullOrEmpty(this.StreetAddress)
 				&& !string.IsNullOrEmpty(this.City)
 				&& !string.IsNullOrEmpty(this.State)
-				&& !string.IsNullOrEmpty(this.PostalCode);
+				&& !string.IsNullOrEmpty(this.PostalCode)
+				&& _people.Count != 0;
 		}
 	}
 }

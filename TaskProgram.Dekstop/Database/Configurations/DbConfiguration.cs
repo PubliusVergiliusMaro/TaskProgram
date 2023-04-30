@@ -8,6 +8,6 @@ namespace TaskProgram.Database.Configurations
 {
 	public class DbConfiguration
 	{
-		public static string CONNECTION_STRING = @"Data Source=localhost;Database=EFCorePeopleDb;Trusted_Connection=True;TrustServerCertificate=True;";
+		public static string CONNECTION_STRING = @"Data Source=localhost;Database=EFCorePDb;Trusted_Connection=True;TrustServerCertificate=True;";
 	}
 }

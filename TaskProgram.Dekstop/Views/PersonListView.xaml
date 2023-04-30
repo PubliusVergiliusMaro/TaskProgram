@@ -11,7 +11,6 @@
         <ContextMenu x:Key="GridContextMenu">
             <ComboBox ItemsSource="{Binding Path=MyItemsSource}" SelectedItem="{Binding Path=MySelectedItem}"/>
         </ContextMenu>
-
     </UserControl.Resources>
 
     <Grid>
@@ -19,8 +18,10 @@
             <RowDefinition Height="10*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button Command="{Binding UpdateTableCommand}" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Top">
-            Update
+        <Button Command="{Binding UpdateTableCommand}" Width="50" Height="50" Margin="0 0 5 0" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <TextBlock TextWrapping="Wrap">
+              Refresh Table  
+            </TextBlock>
         </Button>
         <DataGrid
             Grid.Row="0"
@@ -60,7 +61,7 @@
             <Button 
                 Content="Delete Selected" 
                 x:Name="deleteBookBtn"
-                Width="80"
+                Width="90"
                 Height="30"
                 Command="{Binding DeletePersonCommand}" 
                 Margin="50,0,0,2"></Button>

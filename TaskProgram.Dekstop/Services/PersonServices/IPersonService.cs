@@ -20,7 +20,7 @@ namespace TaskProgram.Services.PersonServices
 	    List<Person> GetAllEF();
 		Person GetByIdADO(int id);
 		Person GetByIdEF(int id);
-		bool UpdateADO(Person newPerson);
+		bool UpdateADO(Person person);
 		bool UpdateEF(Person person);
 		List<Person> Deserialize(string path);
 		void Serialize(List<Person> people, string path);

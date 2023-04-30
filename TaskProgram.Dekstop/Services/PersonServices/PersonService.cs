@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Runtime.ExceptionServices;
+using System.Reflection;
+
 namespace TaskProgram.Services.PersonServices
 {
 	public class PersonService : IPersonService
@@ -265,8 +267,24 @@ Where People.Id = {id};", connection))
 		{
 			try
 			{
-				_personRepository.Table.Update(person);
-				_personRepository.SaveChanges();
+				Person dbRecord = _personRepository.Table.Where(p => p.Id == person.Id)
+					.Include(p => p.Address)
+					.FirstOrDefault();
+				if(dbRecord != null)
+				{
+					dbRecord.FirstName = person.FirstName;
+					dbRecord.LastName = person.LastName;
+					dbRecord.Gender = person.Gender;
+					dbRecord.Age = person.Age;
+					dbRecord.PhoneNumber = person.PhoneNumber;
+					dbRecord.Address.StreetAddress = person.Address.StreetAddress;
+					dbRecord.Address.City = person.Address.City;
+					dbRecord.Address.State = person.Address.State;
+					dbRecord.Address.PostalCode = person.Address.PostalCode;
+
+					_personRepository.SaveChanges();
+                  
+				} 
 				return true;
 			}
 			catch (Exception ex)

@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Navigation;
 using TaskProgram.Database.Models;
 using TaskProgram.Dekstop.Commands;
 using TaskProgram.Dekstop.Services.NavigationServices;
@@ -16,7 +9,7 @@ using TaskProgram.Services.PersonServices;
 
 namespace TaskProgram.Dekstop.ViewModels
 {
-    public class PersonListViewModel : ViewModelBase
+	public class PersonListViewModel : ViewModelBase
 	{
 		private static ObservableCollection<PersonViewModel> _people;
 		private static IPersonService _personService;
@@ -46,8 +39,17 @@ namespace TaskProgram.Dekstop.ViewModels
 			EditPersonCommand = new DelegateCommand(GoToAddPersonPage);
 			DeletePersonCommand = new DelegateCommand(DeletePerson, CanBeDeleted);
 			UpdateTableCommand = new DelegateCommand(UpdateTable);
-			UpdateTable();
 
+			
+			List<Person> people = _personService.GetAllEF();
+			if (people != null && people.Count != 0)
+			{
+				foreach (Person person in _personService.GetAllEF())
+				{
+					var personViewModel = new PersonViewModel(person);
+					_people.Add(personViewModel);
+				}
+			}
 		}
 		private void UpdateTable()
 		{
@@ -61,6 +63,8 @@ namespace TaskProgram.Dekstop.ViewModels
 					_people.Add(personViewModel);
 				}
 			}
+			MessageBox.Show("Table was updated.", "Updated",
+				  MessageBoxButton.OK, MessageBoxImage.Information);
 		}
 		private bool CanBeDeleted()
 		{
